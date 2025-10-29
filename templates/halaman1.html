@@ -12,6 +12,20 @@
          menentukan sejauh mana suatu nilai termasuk dalam sebuah himpunan. Ini membuatnya sangat berguna dalam sistem kontrol (seperti AC, mesin cuci) dan 
          pengambilan keputusan di mana datanya bersifat tidak presisi atau ambigu.
     </p>
+    <p>Kelebihan</p>
+    <ul>
+        <li>Mampu bekerja dengan data yang tidak presisi, tidak lengkap, atau ambigu (kabur), yang sangat umum di dunia nyata.</li>
+        <li>Didasarkan pada bahasa alami dan logika manusia (misalnya: 'sedikit hangat', 'sangat cepat'), sehingga lebih mudah dipahami dan diimplementasikan untuk masalah tertentu.</li>
+        <li>Tidak mudah gagal total jika ada data noise atau input yang sedikit salah.</li>
+        <li>Aturan-aturan (rules) dalam sistem fuzzy dapat dengan mudah ditambah atau diubah.</li>
+    </ul>
+    <p>Kekurangan</p>
+    <ul>
+        <li>Penentuan fungsi keanggotaan dan aturan fuzzy seringkali bergantung pada keahlian pakar dan bisa bersifat subjektif.</li>
+        <li>Memverifikasi dan memvalidasi keakuratan sistem fuzzy bisa lebih kompleks dibandingkan sistem logika biner.</li>
+        <li>Untuk masalah yang memerlukan presisi matematis sangat tinggi, fuzzy logic mungkin bukan pilihan terbaik.</li>
+    </ul>
+
     <h3>Artificial Neural Network</h3>
     <p>Artificial Neural Network (ANN) atau Jaringan Saraf Tiruan adalah model komputasi yang terinspirasi oleh struktur dan cara kerja jaringan saraf biologis 
         di otak manusia. ANN terdiri dari unit-unit pemrosesan kecil yang saling terhubung, disebut 'neuron' atau 'node', yang diorganisir dalam lapisan-lapisan 
@@ -19,6 +33,22 @@
         proses pelatihan. Kemampuannya untuk mengenali pola yang kompleks membuat ANN sangat efektif untuk tugas-tugas seperti pengenalan gambar, pemrosesan bahasa 
         alami (NLP), dan peramalan.
     </p>
+    <p>Kelebihan</p>
+    <ul>
+        <li>ANN dapat "belajar" dari data pelatihan dan meningkatkan kinerjanya seiring waktu tanpa perlu diprogram secara eksplisit untuk setiap tugas.</li>
+        <li>Mampu mengenali pola dan membuat prediksi pada data baru yang belum pernah dilihat sebelumnya (setelah dilatih dengan baik).</li>
+        <li>Kerusakan pada beberapa neuron atau koneksi seringkali tidak langsung merusak keseluruhan fungsi jaringan.</li>
+        <li>Sangat andal dalam memetakan hubungan yang kompleks dan non-linear antar variabel.</li>
+    </ul>
+    <p>Kekurangan</p>
+    <ul>
+        <li>Seringkali sulit untuk memahami bagaimana atau mengapa ANN mencapai suatu keputusan atau hasil. Proses internalnya tidak mudah diinterpretasi.</li>
+        <li>Memerlukan data pelatihan dalam jumlah besar dan berkualitas baik untuk bisa belajar secara efektif.</li>
+        <li>Proses pelatihan (terutama untuk model deep learning yang besar) membutuhkan sumber daya komputasi (CPU/GPU) yang signifikan dan waktu yang lama.</li>
+        <li>Jaringan bisa menjadi terlalu "hafal" data pelatihan sehingga kinerjanya buruk saat dihadapkan pada data baru.</li>
+    </ul>
+
+
     <h3>Genetic Algorithm</h3>
     <p>Algoritma Genetika (Genetic Algorithm) adalah teknik pencarian dan optimisasi yang terinspirasi oleh proses evolusi biologis dan seleksi alam. Algoritma ini 
         bekerja dengan 'populasi' solusi kandidat untuk suatu masalah. Setiap solusi direpresentasikan sebagai 'kromosom' (seringkali dalam bentuk string biner). 
@@ -26,4 +56,18 @@
         dipilih untuk 'bereproduksi' melalui operasi seperti 'crossover' (persilangan) dan 'mutasi' untuk menciptakan generasi solusi baru. Proses ini diulang-ulang, 
         memungkinkan populasi untuk 'berevolusi' menuju solusi yang semakin baik atau optimal.
     </p>
+    <p>Kelebihan</p>
+    <ul>
+        <li>Lebih baik dalam menemukan solusi optimal global (terbaik dari semua) dan tidak mudah terjebak dalam solusi optimal lokal (solusi yang baik, tapi bukan yang terbaik).</li>
+        <li>Secara alami menjelajahi banyak kemungkinan solusi secara bersamaan (satu populasi).</li>
+        <li>Dapat diterapkan pada berbagai jenis masalah optimisasi yang kompleks, bahkan ketika ruang solusinya tidak mulus atau sulit didefinisikan secara matematis.</li>
+        <li>Tidak memerlukan informasi turunan (gradien) dari fungsi, tidak seperti metode optimisasi klasik.</li>
+    </ul>
+    <p>Kekurangan</p>
+    <ul>
+        <li>Mengevaluasi "fitness" dari setiap individu dalam populasi yang besar selama banyak generasi bisa memakan waktu lama.</li>
+        <li>Terkadang membutuhkan waktu lama untuk menyatu (konvergen) ke solusi yang baik.</li>
+        <li>Kinerjanya sangat bergantung pada pengaturan parameter seperti ukuran populasi, laju mutasi, dan laju crossover, yang penentuannya tidak selalu mudah.</li>
+        <li>Tidak ada jaminan akan selalu menemukan solusi optimal absolut, tetapi biasanya memberikan solusi "cukup baik" yang mendekati optimal.</li>
+    </ul>
 {% endblock %}
