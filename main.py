@@ -1,17 +1,19 @@
+import os
 from flask import Flask, render_template
-from latihan.latihan1 import latihan1_bp
+from latihan import register_blueprints
 
-# Inisialisasi aplikasi Flask
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16MB
 
-# Daftarkan Blueprint ke aplikasi utama
-app.register_blueprint(latihan1_bp)
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# Rute untuk halaman utama (Home)
-@app.route("/")
-def index():
+register_blueprints(app)
+
+@app.route('/')
+def home():
+    """Halaman utama yang menampilkan daftar latihan."""
     return render_template('index.html')
 
-# Jalankan server
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
