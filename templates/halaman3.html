@@ -1,0 +1,153 @@
+{% extends "navbar.html" %}
+
+{% block title %}Latihan 3 - TSP{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+    <h1>Latihan 3: TSP</h1>
+    <p>Masukkan jumlah node (kota), isi tabel jarak, lalu sistem akan mencari rute terpendek.</p>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">1. Konfigurasi Node</div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('latihan3.index') }}">
+                        
+                        <div class="mb-3">
+                            <label for="inputJumlah" class="form-label">Jumlah Kota (Node):</label>
+                            <div class="input-group">
+                                <input type="number" id="inputJumlah" name="jumlah_kota" class="form-control" min="3" max="10" value="5" required>
+                                <button type="button" class="btn btn-secondary" onclick="generateTable()">Buat Tabel</button>
+                            </div>
+                            <small class="text-muted">Disarankan 3 - 10 kota untuk latihan.</small>
+                        </div>
+
+                        <div id="matrixContainer" class="table-responsive mb-3" style="display:none;">
+                            <label class="form-label fw-bold">2. Isi Jarak Antar Node:</label>
+                            <table class="table table-bordered table-sm text-center" id="inputTable">
+                                </table>
+                            
+                            <button type="submit" class="btn btn-primary w-100 mt-2">
+                                <i class="bi bi-cpu"></i> Hitung Rute Terbaik (Start GA)
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            {% if error %}
+                <div class="alert alert-danger mt-3">{{ error }}</div>
+            {% endif %}
+
+            {% if rute %}
+            <div class="card shadow border-success">
+                <div class="card-header bg-success text-white">
+                    Hasil Optimasi
+                </div>
+                <div class="card-body text-center">
+                    <h2 class="display-6 fw-bold text-success">{{ jarak }} KM</h2>
+                    <p class="text-muted">Total Jarak Tempuh</p>
+                    
+                    <hr>
+                    <h5 class="card-title">Rute Terbaik:</h5>
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        {% for kota in rute %}
+                            <span class="badge bg-dark p-2">{{ kota }}</span>
+                            {% if not loop.last %} ➝ {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <details>
+                    <summary class="text-primary" style="cursor: pointer;">Lihat History Penurunan Jarak</summary>
+                    <ul class="list-group mt-2" style="max-height: 200px; overflow-y:auto;">
+                        {% for h in history %}
+                            {% if loop.index % 20 == 0 or loop.first or loop.last %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Gen {{ loop.index }}
+                                <span class="badge bg-primary rounded-pill">{{ h }}</span>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </details>
+            </div>
+            {% else %}
+                <div class="alert alert-info mt-3">
+                    Hasil perhitungan akan muncul di sini setelah Anda mengisi tabel dan menekan tombol Hitung.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fungsi untuk membuat Label A, B, C...
+    function getLabel(index) {
+        return String.fromCharCode(65 + index); // 65 adalah kode ASCII untuk 'A'
+    }
+
+    function generateTable() {
+        const jumlah = document.getElementById('inputJumlah').value;
+        const container = document.getElementById('matrixContainer');
+        const table = document.getElementById('inputTable');
+        
+        // Reset isi tabel
+        table.innerHTML = '';
+        
+        if (jumlah < 2) {
+            alert("Jumlah kota minimal 2");
+            return;
+        }
+
+        // 1. Buat Header (A, B, C...)
+        let headerRow = '<thead><tr><th>#</th>';
+        for (let i = 0; i < jumlah; i++) {
+            headerRow += `<th class="bg-light">${getLabel(i)}</th>`;
+        }
+        headerRow += '</tr></thead>';
+        table.innerHTML += headerRow;
+
+        // 2. Buat Body (Baris input)
+        let bodyContent = '<tbody>';
+        for (let i = 0; i < jumlah; i++) {
+            bodyContent += `<tr>`;
+            // Label Baris (A, B, C...)
+            bodyContent += `<th class="bg-light align-middle">${getLabel(i)}</th>`;
+            
+            for (let j = 0; j < jumlah; j++) {
+                // Logic: Diagonal (A ke A) nilainya 0 dan read-only
+                let isDiagonal = (i === j);
+                let val = isDiagonal ? 0 : ""; 
+                let readOnly = isDiagonal ? "readonly tabindex='-1'" : "";
+                let bgClass = isDiagonal ? "bg-secondary text-white" : "";
+
+                // Name format: dist_baris_kolom (contoh: dist_0_1)
+                bodyContent += `
+                    <td class="p-1">
+                        <input type="number" step="any" name="dist_${i}_${j}" 
+                               class="form-control form-control-sm text-center ${bgClass}" 
+                               value="${val}" ${readOnly} required>
+                    </td>
+                `;
+            }
+            bodyContent += `</tr>`;
+        }
+        bodyContent += '</tbody>';
+        table.innerHTML += bodyContent;
+
+        // Tampilkan container
+        container.style.display = 'block';
+    }
+
+    // Generate tabel otomatis saat halaman dimuat pertama kali
+    window.onload = generateTable;
+</script>
+{% endblock %}
